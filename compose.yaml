@@ -43,3 +43,13 @@ services:
       - "4040:4040"
     depends_on: [worker-1, worker-2]
     profiles: [pipeline]
+
+  # The Spark UI of finished runs: those built with `--event-log data/spark-events`.
+  history:
+    <<: *node
+    command: ["spark-class", "org.apache.spark.deploy.history.HistoryServer"]
+    environment:
+      SPARK_HISTORY_OPTS: "-Dspark.history.fs.logDirectory=/app/data/spark-events"
+    ports:
+      - "18080:18080"
+    profiles: [history]

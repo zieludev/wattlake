@@ -26,8 +26,10 @@ class Lake:
         df.write.mode("overwrite").parquet(self.table(layer, name))
 
 
-def spark_session(master: str = "local[*]", driver_memory: str = "4g") -> SparkSession:
-    return (
+def spark_session(
+    master: str = "local[*]", driver_memory: str = "4g", event_log: Path | None = None
+) -> SparkSession:
+    builder = (
         SparkSession.builder.appName("wattlake")
         .master(master)
         # Only takes effect when this call starts the JVM, which is the case for the CLI.
@@ -36,5 +38,10 @@ def spark_session(master: str = "local[*]", driver_memory: str = "4g") -> SparkS
         .config("spark.sql.session.timeZone", "UTC")
         .config("spark.ui.showConsoleProgress", "false")
         .config("spark.sql.parquet.compression.codec", "zstd")
-        .getOrCreate()
     )
+    if event_log is not None:
+        event_log.mkdir(parents=True, exist_ok=True)
+        builder = builder.config("spark.eventLog.enabled", "true").config(
+            "spark.eventLog.dir", event_log.resolve().as_uri()
+        )
+    return builder.getOrCreate()

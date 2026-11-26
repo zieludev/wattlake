@@ -41,6 +41,16 @@ that is a random sample, and the same one on every machine. These are the comman
 the results in `docs/`. `wattlake --help` lists the rest, and `wattlake build silver gold` runs
 only some of the stages.
 
+Spark's UI is on http://localhost:4040 while a build runs, and closes when it ends. To look at a
+run afterwards, keep its event log and open it in Spark's history server, on
+http://localhost:18080:
+
+```bash
+uv run wattlake build --event-log data/spark-events
+SPARK_HISTORY_OPTS=-Dspark.history.fs.logDirectory=data/spark-events \
+  uv run spark-class org.apache.spark.deploy.history.HistoryServer
+```
+
 ## What it computes
 
 | table | one row per | what |
@@ -80,7 +90,8 @@ docker compose down
 ```
 
 The master's web UI is on http://localhost:8080, and the one of a running build on
-http://localhost:4040. Every container mounts `./data` at the same path, because the executors
+http://localhost:4040. A build run with `--event-log data/spark-events` can be looked at after
+it ends: `docker compose up -d history` serves it on http://localhost:18080. Every container mounts `./data` at the same path, because the executors
 open the zips and write the tables there themselves.
 
 ## What is verified

@@ -20,6 +20,12 @@ def main(argv: list[str] | None = None) -> None:
     spark = argparse.ArgumentParser(add_help=False)
     spark.add_argument("--master", default="local[*]", help="Spark master, default: local[*]")
     spark.add_argument("--driver-memory", default="4g")
+    spark.add_argument(
+        "--event-log",
+        type=Path,
+        metavar="DIR",
+        help="keep the Spark UI of this run in DIR, for Spark's history server",
+    )
     commands = parser.add_subparsers(dest="command", required=True)
 
     fetch = commands.add_parser("fetch", help="download athletes from OSF into DATA/raw")
@@ -52,17 +58,22 @@ def main(argv: list[str] | None = None) -> None:
         osf.fetch(lake.raw, args.athletes, args.max_mb, args.workers, log=log)
         return
 
-    session = spark_session(args.master, args.driver_memory)
+    session = spark_session(args.master, args.driver_memory, args.event_log)
     session.sparkContext.setLogLevel("WARN")
-    if args.command == "build":
-        for stage in args.stages:
-            started = time.monotonic()
-            STAGES[stage](session, lake)
-            log(f"{stage}: {time.monotonic() - started:.0f} s")
-    elif args.command == "report":
-        report.write(session, lake, args.out)
-        log(f"wrote {args.out}")
-    elif args.command == "benchmark":
-        power_1hz = lake.read(session, "silver", "power_1hz")
-        for method, seconds in report.benchmark(power_1hz, args.methods, args.repeat):
-            log(f"{method}: {seconds:.1f} s")
+    # Without a stop the event log stays marked as in progress and the history server lists
+    # the run as incomplete.
+    try:
+        if args.command == "build":
+            for stage in args.stages:
+                started = time.monotonic()
+                STAGES[stage](session, lake)
+                log(f"{stage}: {time.monotonic() - started:.0f} s")
+        elif args.command == "report":
+            report.write(session, lake, args.out)
+            log(f"wrote {args.out}")
+        elif args.command == "benchmark":
+            power_1hz = lake.read(session, "silver", "power_1hz")
+            for method, seconds in report.benchmark(power_1hz, args.methods, args.repeat):
+                log(f"{method}: {seconds:.1f} s")
+    finally:
+        session.stop()
