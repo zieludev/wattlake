@@ -91,7 +91,8 @@ docker compose down
 
 The master's web UI is on http://localhost:8080, and the one of a running build on
 http://localhost:4040. A build run with `--event-log data/spark-events` can be looked at after
-it ends: `docker compose up -d history` serves it on http://localhost:18080. Every container mounts `./data` at the same path, because the executors
+it ends: `docker compose up -d history` serves it on http://localhost:18080, and
+`docker compose --profile history down` stops it with the rest. Every container mounts `./data` at the same path, because the executors
 open the zips and write the tables there themselves.
 
 ## What is verified
