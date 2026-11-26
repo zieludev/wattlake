@@ -23,14 +23,16 @@ WORKDIR /app
 ENTRYPOINT ["entrypoint"]
 
 FROM base AS dev
-COPY pyproject.toml uv.lock README.md LICENSE ./
+COPY pyproject.toml uv.lock ./
 RUN uv sync --locked --no-install-project
+COPY README.md LICENSE ./
 COPY src ./src
 RUN uv sync --locked
 
 FROM base AS runtime
-COPY pyproject.toml uv.lock README.md LICENSE ./
+COPY pyproject.toml uv.lock ./
 RUN uv sync --locked --no-dev --no-install-project
+COPY README.md LICENSE ./
 COPY src ./src
 RUN uv sync --locked --no-dev --no-editable
 USER 1000:1000
