@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+dist/
+
+# Downloaded and computed data, and what Spark leaves behind.
+/data/
+spark-warehouse/
+metastore_db/
+derby.log

@@ -1,0 +1,55 @@
+[project]
+name = "wattlake"
+version = "0.1.0"
+description = "Power analytics for thousands of cyclists with PySpark, on the GoldenCheetah OpenData set"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+authors = [{ name = "zieludev" }]
+# Exact: the Spark version is part of every number in docs/. pandas stays below 3 until
+# PySpark supports it; 4.3 warns that it does not yet.
+dependencies = ["pyspark[sql]==4.3.0", "pandas>=2.2,<3"]
+
+[project.urls]
+Repository = "https://github.com/zieludev/wattlake"
+
+[project.scripts]
+wattlake = "wattlake.cli:main"
+
+[dependency-groups]
+dev = [
+    { include-group = "test" },
+    "ruff>=0.14",
+    "basedpyright>=1.40",
+]
+test = ["pytest>=8.4"]
+
+[build-system]
+requires = ["uv_build>=0.10.2,<0.11"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "B", "UP", "SIM", "C4", "PT", "RET", "RUF"]
+# `functions as F` is how PySpark code imports its functions everywhere.
+ignore = ["N812"]
+
+[tool.basedpyright]
+include = ["src", "tests"]
+typeCheckingMode = "strict"
+pythonVersion = "3.11"
+# pyarrow ships no type information and pandas only some, so values that pass through them
+# are of unknown type. Every other strict rule stays on.
+reportMissingTypeStubs = false
+reportUnknownMemberType = false
+reportUnknownArgumentType = false
+reportUnknownVariableType = false
+reportUnknownParameterType = false
+reportUnknownLambdaType = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

@@ -1,0 +1,45 @@
+# A Spark cluster on one machine: a master, two workers, and the pipeline as the driver.
+#
+#   docker compose run --rm pipeline wattlake fetch --athletes 200
+#   docker compose run --rm pipeline wattlake build --master spark://master:7077
+#
+# Every container mounts ./data at the same path: bronze opens the zips by path on the
+# executors, and the executors write the tables there themselves. The Spark UI of the master is
+# on http://localhost:8080 and the one of a running build on http://localhost:4040.
+#
+# The containers run as ${UID}:${GID}, 1000:1000 unless set, so the files in ./data are yours.
+# With another id: `export UID; export GID=$(id -g)` first.
+
+x-node: &node
+  image: wattlake
+  user: "${UID:-1000}:${GID:-1000}"
+  volumes:
+    - ./data:/app/data
+
+services:
+  master:
+    <<: *node
+    build:
+      context: .
+      target: runtime
+    command: ["spark-class", "org.apache.spark.deploy.master.Master", "--host", "master"]
+    ports:
+      - "8080:8080"
+
+  worker-1: &worker
+    <<: *node
+    command: ["spark-class", "org.apache.spark.deploy.worker.Worker", "spark://master:7077"]
+    environment:
+      SPARK_WORKER_CORES: "4"
+      SPARK_WORKER_MEMORY: "6g"
+    depends_on: [master]
+
+  worker-2: *worker
+
+  pipeline:
+    <<: *node
+    command: ["wattlake", "--help"]
+    ports:
+      - "4040:4040"
+    depends_on: [worker-1, worker-2]
+    profiles: [pipeline]

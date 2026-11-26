@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v10.4.0
+        with:
+          version: "0.10.2"
+          python-version: "3.13"
+          enable-cache: true
+
+      - name: Install
+        run: uv sync --locked
+
+      - name: Lint
+        run: uv run ruff check
+
+      - name: Format
+        run: uv run ruff format --check
+
+      - name: Types
+        run: uv run basedpyright
+
+  test:
+    name: test (python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v10.4.0
+        with:
+          version: "0.10.2"
+          python-version: ${{ matrix.python }}
+          enable-cache: true
+
+      # The runner's default Java is newer than Spark supports; 21 is also the image's.
+      - name: Java 21
+        run: echo "JAVA_HOME=${JAVA_HOME_21_X64:?this runner has no Java 21}" >> "$GITHUB_ENV"
+
+      - name: Install
+        run: uv sync --locked
+
+      - name: Tests
+        run: uv run pytest
+
+  image:
+    name: Docker image, the pipeline on the test athlete
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Build
+        run: docker build --target runtime -t wattlake .
+
+      # As the runner's user, which has no name in the image: this also covers the entrypoint.
+      - name: Build the tables and the results page
+        run: |
+          mkdir -p data/raw
+          cp tests/data/*.zip data/raw/
+          run() { docker run --rm -v "$PWD/data:/app/data" --user "$(id -u):$(id -g)" wattlake "$@"; }
+          run wattlake build
+          run wattlake report --out data/results
+          grep -q '^## Agreement with GoldenCheetah' data/results/results.md

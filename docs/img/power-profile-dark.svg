@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-label="Percentiles of the riders&#x27; best power per kilogram, for efforts from 1 s to 60 min">
+  <rect width="760" height="420" rx="8" fill="#191919"/>
+  <text x="56.0" y="30.0" font-size="16" font-weight="600" fill="#efefef" text-anchor="start">Best power per kilogram, by how long the effort lasts</text>
+  <text x="56.0" y="50.0" font-size="12" font-weight="400" fill="#9c9c9c" text-anchor="start">115 riders, best season each · line: median, bands: middle half and middle 80 %</text>
+  <line x1="56.0" y1="376.0" x2="628.0" y2="376.0" stroke="#474747" stroke-width="1"/>
+  <text x="48.0" y="380.0" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="end">0</text>
+  <line x1="56.0" y1="315.2" x2="628.0" y2="315.2" stroke="#303030" stroke-width="1"/>
+  <text x="48.0" y="319.2" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="end">5</text>
+  <line x1="56.0" y1="254.4" x2="628.0" y2="254.4" stroke="#303030" stroke-width="1"/>
+  <text x="48.0" y="258.4" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="end">10</text>
+  <line x1="56.0" y1="193.6" x2="628.0" y2="193.6" stroke="#303030" stroke-width="1"/>
+  <text x="48.0" y="197.6" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="end">15</text>
+  <line x1="56.0" y1="132.8" x2="628.0" y2="132.8" stroke="#303030" stroke-width="1"/>
+  <text x="48.0" y="136.8" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="end">20</text>
+  <line x1="56.0" y1="72.0" x2="628.0" y2="72.0" stroke="#303030" stroke-width="1"/>
+  <text x="48.0" y="76.0" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="end">25</text>
+  <text x="48.0" y="58.0" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="end">W/kg</text>
+  <text x="56.0" y="394.0" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="middle">1 s</text>
+  <text x="168.4" y="394.0" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="middle">5 s</text>
+  <text x="245.2" y="394.0" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="middle">15 s</text>
+  <text x="342.0" y="394.0" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="middle">1 min</text>
+  <text x="454.4" y="394.0" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="middle">5 min</text>
+  <text x="551.3" y="394.0" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="middle">20 min</text>
+  <text x="628.0" y="394.0" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="middle">60 min</text>
+  <path d="M56.0,73.0 L168.4,163.6 L216.8,183.7 L245.2,203.0 L265.3,216.4 L293.6,237.3 L342.0,268.4 L390.4,283.1 L418.7,293.7 L454.4,299.7 L487.3,302.2 L502.8,303.8 L551.3,310.7 L579.6,314.8 L628.0,320.7 L628.0,347.3 L579.6,344.6 L551.3,343.2 L502.8,340.1 L487.3,339.1 L454.4,336.4 L418.7,332.0 L390.4,328.5 L342.0,320.5 L293.6,308.2 L265.3,296.7 L245.2,291.2 L216.8,282.3 L168.4,272.5 L56.0,264.6 Z" fill="#338ced" fill-opacity="0.1"/>
+  <path d="M56.0,152.5 L168.4,192.4 L216.8,214.1 L245.2,223.6 L265.3,234.3 L293.6,247.9 L342.0,281.0 L390.4,299.4 L418.7,304.4 L454.4,310.7 L487.3,315.7 L502.8,317.8 L551.3,321.1 L579.6,324.1 L628.0,328.9 L628.0,341.7 L579.6,338.3 L551.3,336.2 L502.8,333.8 L487.3,332.0 L454.4,329.5 L418.7,326.7 L390.4,323.4 L342.0,311.4 L293.6,296.0 L265.3,287.2 L245.2,276.3 L216.8,266.4 L168.4,253.7 L56.0,236.6 Z" fill="#338ced" fill-opacity="0.18"/>
+  <path d="M56.0,204.1 L168.4,226.3 L216.8,241.8 L245.2,253.4 L265.3,263.0 L293.6,277.3 L342.0,298.1 L390.4,312.4 L418.7,315.8 L454.4,319.4 L487.3,325.1 L502.8,325.8 L551.3,328.8 L579.6,331.2 L628.0,334.7" fill="none" stroke="#338ced" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="628.0" cy="334.7" r="4" fill="#338ced" stroke="#191919" stroke-width="2"/>
+  <line x1="634.0" y1="320.7" x2="638.0" y2="320.7" stroke="#474747" stroke-width="1"/>
+  <text x="640.0" y="324.7" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="start">top 10 % 4.5</text>
+  <line x1="634.0" y1="334.7" x2="638.0" y2="336.7" stroke="#474747" stroke-width="1"/>
+  <text x="640.0" y="340.7" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="start">median 3.4</text>
+  <line x1="634.0" y1="347.3" x2="638.0" y2="352.7" stroke="#474747" stroke-width="1"/>
+  <text x="640.0" y="356.7" font-size="11" font-weight="400" fill="#9c9c9c" text-anchor="start">bottom 10 % 2.4</text>
+</svg>
